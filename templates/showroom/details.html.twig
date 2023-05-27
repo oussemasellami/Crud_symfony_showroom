@@ -1,0 +1,17 @@
+<table border="3">
+    <tr>
+    <td>Nce</td>
+    <td>nom</td>
+    <td>Desc</td>
+    <td>kilom</td>
+</tr>
+{% for c in showbyid %}
+<tr>
+    <td>{{c.nce}}</td>
+    <td>{{c.nom}}</td>
+    <td>{{c.description}}</td>
+    <td>{{c.kilometrage}}</td>
+   
+</tr>
+{% endfor %}
+</table>

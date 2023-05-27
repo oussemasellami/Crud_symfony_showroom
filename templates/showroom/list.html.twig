@@ -1,0 +1,24 @@
+<td><form action="{{path('app_add')}}"><button type="submit" >Ajouter Une nouvelle voiture</button></form></td>
+<br>
+<br>
+
+
+<table border="3">
+    <tr>
+    <td>Nce</td>
+    <td>nom</td>
+    <td>Desc</td>
+    <td>kilom</td>
+</tr>
+{% for c in show %}
+<tr>
+    <td>{{c.nce}}</td>
+    <td>{{c.nom}}</td>
+    <td>{{c.description}}</td>
+    <td>{{c.kilometrage}}</td>
+    <td><form action="{{path('app_listbyid',{'nce':c.nce})}}"><button type="submit" >Details</button></form></td>
+    <td><form action="{{path('app_update',{'nce':c.nce})}}"><button type="submit" >Update</button></form></td>
+    <td><form action="{{path('app_delete',{'nce':c.nce})}}"><button type="submit" >Delete</button></form></td>
+</tr>
+{% endfor %}
+</table>
