@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Car;
 use App\Form\CarType;
+use App\Form\SearchType;
 use App\Repository\CarRepository;
+use App\Repository\ShowroomRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,12 +14,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ShowroomController extends AbstractController
 {
-    #[Route('/showroom', name: 'app_showroom')]
-    public function index(): Response
+    #[Route('/order', name: 'app_showroom')]
+    public function index(CarRepository $carRepository, Request $req): Response
     {
-        return $this->render('showroom/index.html.twig', [
-            'controller_name' => 'ShowroomController',
-        ]);
+        $cars = $carRepository->findAll();
+        $order = $carRepository->getOrderbyKilometrage();
+        $max = $carRepository->maxKilometrage();
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($req);
+        if ($form->isSubmitted()) {
+            $dataform = $form->getData();
+
+            $result = $carRepository->searchCar($dataform);
+            // var_dump($result) . die();
+
+            return $this->render('showroom/order.html.twig', array('order' => $order, 'cars' => $result, 'max' => $max, 'search' => $form->createView()));
+        }
+        return $this->render('showroom/order.html.twig', array('order' => $order, 'cars' => $cars, 'max' => $max, 'search' => $form->createView()));
     }
 
     #[Route('/list', name: 'app_list')]
@@ -78,5 +91,16 @@ class ShowroomController extends AbstractController
         $car = $carRepository->find($nce);
         $carRepository->remove($car, true);
         return $this->redirectToRoute('app_list');
+    }
+
+    #[Route('/listcarinshowroom/{id}', name: 'app_listcarinshowroom')]
+    public function listcarinshowroom(CarRepository $carRepository, ShowroomRepository $showroomRepository, $id): Response
+    {
+        $showroom = $showroomRepository->find($id);
+        $carshowroom = $carRepository->getCarsByShowroom($id);
+        return $this->render('showroom/listinshowroom.html.twig', [
+            'showroom' => $showroom,
+            'carshowroom' => $carshowroom
+        ]);
     }
 }

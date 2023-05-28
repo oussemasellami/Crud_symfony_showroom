@@ -1,0 +1,15 @@
+{{showroom.id}}
+
+{{showroom}}
+
+<h1> list cars of showroom</h1>
+{% for i in carshowroom %}
+
+nce:{{i.nce}}
+nom:{{i.nom}}
+description:{{i.description}}
+kilometrage:{{i.kilometrage}}
+showroom:{{i.showroom}}
+
+<br>
+{% endfor %}

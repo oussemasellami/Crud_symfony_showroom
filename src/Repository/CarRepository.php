@@ -39,28 +39,61 @@ class CarRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Car[] Returns an array of Car objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Car[] Returns an array of Car objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Car
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Car
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
+    //QuiryBuilder-----------------------------------------------
+    public function searchCar($nce)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->where('s.nce = :n')
+            ->setParameter('n', $nce);
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getOrderbyKilometrage()
+    {
+        $qb = $this->createQueryBuilder('x')
+            ->orderBy('x.kilometrage', 'DESC');
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getCarsByShowroom($id)
+    {
+        $s = $this->createQueryBuilder('s')
+            ->join('s.showroom', 'c')
+            ->addSelect('c')
+            ->where('c.id=:id')
+            ->setParameter('id', $id);
+        return $s->getQuery()->getResult();
+    }
+
+    //DQL-------------------------------------------------------
+    public function maxKilometrage()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT s FROM APP\Entity\Car s WHERE s.kilometrage >= 185000");
+        return $query->getResult();
+    }
 }

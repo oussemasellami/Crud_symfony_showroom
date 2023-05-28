@@ -82,4 +82,9 @@ class Car
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return (string)$this->getNce();
+    }
 }

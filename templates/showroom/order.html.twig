@@ -1,0 +1,40 @@
+
+{{form(search)}}
+
+<h1>List Cars</h1>
+<hr>
+{% for i in cars %}
+nce:{{i.nce}}
+nom:{{i.nom}}
+description:{{i.description}}
+kilometrage:{{i.kilometrage}}
+Showroom:{{i.showroom}}
+<br>
+{% endfor %}
+
+<hr>
+<h1>List order with kilometrage</h1>
+<hr>
+{% for i in order %}
+nce:{{i.nce}}
+nom:{{i.nom}}
+description:{{i.description}}
+kilometrage:{{i.kilometrage}}
+Showroom:{{i.showroom}}
+<br>
+{% endfor %}
+
+<hr>
+
+<h1>List Max kilometrage</h1>
+<hr>
+{% for i in max %}
+nce:{{i.nce}}
+nom:{{i.nom}}
+description:{{i.description}}
+kilometrage:{{i.kilometrage}}
+Showroom:{{i.showroom}}
+<br>
+{% endfor %}
+
+<hr>
